@@ -1,0 +1,52 @@
+<div class="overflow-hidden rounded-lg border border-gray-200 shadow-md dark:border-slate-700">
+  <table class="w-full text-left text-sm text-gray-500">
+    <thead class="bg-slate-800 text-xs uppercase text-white dark:bg-black">
+      <tr>
+        <th *ngFor="let g of goiburuak" class="px-6 py-3 font-semibold tracking-wider">
+          {{ g }}
+        </th>
+        <th *ngIf="erakutsiBotoia" class="px-6 py-3 text-center font-semibold tracking-wider">
+          Ekintzak
+        </th>
+      </tr>
+    </thead>
+    
+    <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
+      <tr *ngFor="let item of paginatedData" 
+          class="odd:bg-white even:bg-slate-50 hover:bg-blue-50 transition-colors duration-200 dark:odd:bg-slate-900 dark:even:bg-slate-800 dark:hover:bg-slate-700">
+        
+        <td *ngFor="let g of goiburuak" class="px-6 py-4 font-medium text-gray-900 dark:text-gray-200">
+          {{ item[g.toLowerCase()] }}
+        </td>
+
+        <td *ngIf="erakutsiBotoia" class="px-6 py-4 text-center">
+          <button (click)="irekiFitxa(item.id)" 
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow-sm transition-all transform active:scale-95">
+            Ikusi Fitxa
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="flex justify-between items-center mt-6 px-2">
+  <button (click)="prevPage()" 
+          [disabled]="currentPage === 1"
+          class="flex items-center bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-800 transition shadow">
+    <span class="mr-1">←</span> Atzera
+  </button>
+  
+  <div class="flex items-center space-x-2">
+    <span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Orrialdea:</span>
+    <span class="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white px-3 py-1 rounded-md text-sm font-bold border border-slate-200 dark:border-slate-600">
+      {{ currentPage }}
+    </span>
+  </div>
+
+  <button (click)="nextPage()" 
+          [disabled]="(currentPage * itemsPerPage) >= datuak.length"
+          class="flex items-center bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-800 transition shadow">
+    Aurrera <span class="ml-1">→</span>
+  </button>
+</div>

@@ -1,0 +1,8 @@
+[
+  { "id": 1, "izena": "Jon Maia", "email": "jon@mail.com", "herria": "Zumaia", "argazkia": "https://i.pravatar.cc/150?u=jon" },
+  { "id": 2, "izena": "Ane Elordi", "email": "ane@mail.com", "herria": "Ermua", "argazkia": "https://i.pravatar.cc/150?u=ane" },
+  { "id": 3, "izena": "Mikel Urdangarin", "email": "mikel@mail.com", "herria": "Zornotza", "argazkia": "https://i.pravatar.cc/150?u=mikel" },
+  { "id": 4, "izena": "Leire Goienetxea", "email": "leire@mail.com", "herria": "Gaztelu", "argazkia": "https://i.pravatar.cc/150?u=leire" },
+  { "id": 5, "izena": "Asier Etxeberria", "email": "asier@mail.com", "herria": "Zumaia", "argazkia": "https://i.pravatar.cc/150?u=asier" },
+  { "id": 6, "izena": "Nerea Ibarretxe", "email": "nerea@mail.com", "herria": "Zumaia", "argazkia": "https://i.pravatar.cc/150?u=nerea" }
+]
