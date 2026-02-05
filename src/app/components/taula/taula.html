@@ -5,9 +5,6 @@
         <th *ngFor="let g of goiburuak" class="px-6 py-3 font-semibold tracking-wider">
           {{ g }}
         </th>
-        <th *ngIf="erakutsiBotoia" class="px-6 py-3 text-center font-semibold tracking-wider">
-          Ekintzak
-        </th>
       </tr>
     </thead>
     
@@ -17,13 +14,6 @@
         
         <td *ngFor="let g of goiburuak" class="px-6 py-4 font-medium text-gray-900 dark:text-gray-200">
           {{ item[g.toLowerCase()] }}
-        </td>
-
-        <td *ngIf="erakutsiBotoia" class="px-6 py-4 text-center">
-          <button (click)="irekiFitxa(item.id)" 
-                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow-sm transition-all transform active:scale-95">
-            Ikusi Fitxa
-          </button>
         </td>
       </tr>
     </tbody>

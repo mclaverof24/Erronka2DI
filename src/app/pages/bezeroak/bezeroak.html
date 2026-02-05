@@ -6,6 +6,17 @@
     </span>
   </div>
 
+  <div class="mt-8 flex justify-center mb-8">
+    <button 
+      [routerLink]="['/bezero-editatu', 0]" 
+      class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-xl shadow-xl transition-all transform hover:-translate-y-1 active:scale-95">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Bezero Berria Gehitu
+    </button>
+  </div>
+
   <div class="overflow-hidden bg-white shadow-2xl rounded-2xl border border-gray-100">
     <table class="min-w-full table-auto">
       <thead class="bg-gray-900 text-white">
@@ -44,17 +55,6 @@
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <div class="mt-8 flex justify-center">
-    <button 
-      [routerLink]="['/bezero-editatu', 0]" 
-      class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-xl shadow-xl transition-all transform hover:-translate-y-1 active:scale-95">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-      Bezero Berria Gehitu
-    </button>
   </div>
 
   <div class="mt-8 flex justify-between items-center px-6 py-4 bg-white border border-gray-100 shadow-lg rounded-2xl">

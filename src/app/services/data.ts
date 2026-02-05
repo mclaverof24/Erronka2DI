@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Bezeroa } from '../interfaces/bezeroa.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,13 @@ import { Bezeroa } from '../interfaces/bezeroa.interface';
 export class DataService {
   private key = 'bezeroak_data';
   private jsonBezeroakPath = 'bezeroak.json'; 
+  private http = inject(HttpClient);
+  private apiUrl = "http://192.168.208.51:8080/api";
+  data = null;
   
   private bezeroak: Bezeroa[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor(http: HttpClient) {
     this.initData();
   }
 
@@ -65,4 +69,15 @@ export class DataService {
     this.bezeroak.push(newBezeroa);
     this.saveToLocalStorage();
   }
+
+  getZitak(): Observable<any[]> {
+    return this.http.get<any>(this.apiUrl+
+        '/apointment');
+  }
+
+  getEvento(id: number): Observable<any[]> {
+    return this.http.get<any>(this.apiUrl+
+      '/events/'+id);
+  }
 }
+
