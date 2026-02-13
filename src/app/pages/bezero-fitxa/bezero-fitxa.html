@@ -2,14 +2,15 @@
   
   <div class="bg-slate-800 text-white p-8 rounded-xl shadow-lg flex items-center space-x-8">
     <div class="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-slate-600 flex items-center justify-center">
-      <img [src]="bezeroa.argazkia" alt="Profile" class="w-full h-full object-cover">
+      <div class="text-4xl font-bold">{{ bezeroa.name[0] }}{{ bezeroa.surname[0] }}</div>
     </div>
     
     <div class="flex-1">
-      <h2 class="text-3xl font-bold">{{ bezeroa.izena }}</h2>
+      <h2 class="text-3xl font-bold">{{ bezeroa.name }} {{ bezeroa.surname }}</h2>
       <p class="text-slate-300">{{ bezeroa.email }}</p>
-      <p class="text-slate-300">{{ bezeroa.herria }}</p>
-      <button (click)="editatuProfila()" 
+      <p class="text-slate-300">{{ bezeroa.phone }}</p>
+      <p class="text-slate-300" *ngIf="bezeroa.home_client">🏠 Etxeko Bezeroa</p>
+      <button (click)="editatuProfila()"
         class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition shadow-md active:scale-95">
         Editatu Profila
         </button>

@@ -17,27 +17,37 @@
     </button>
   </div>
 
-  <div class="overflow-hidden bg-white shadow-2xl rounded-2xl border border-gray-100">
+  <!-- Kargatzen egoera -->
+  <div *ngIf="kargatzen" class="flex justify-center items-center py-20">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    <span class="ml-4 text-gray-600 font-medium">Bezeroak kargatzen...</span>
+  </div>
+
+  <!-- Taula -->
+  <div *ngIf="!kargatzen && bezeroak.length > 0" class="overflow-hidden bg-white shadow-2xl rounded-2xl border border-gray-100">
     <table class="min-w-full table-auto">
       <thead class="bg-gray-900 text-white">
         <tr>
           <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">ID</th>
           <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Izena</th>
           <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Email</th>
-          <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Herria</th>
+          <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Telefonoa</th>
           <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider">Ekintzak</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
-        <tr *ngFor="let bezeroa of paginatedBezeroak" class="hover:bg-blue-50/50 transition-colors duration-200">
+        <tr *ngFor="let bezeroa of paginatedBezeroak; let odd = odd; let even = even"
+            [class.bg-white]="odd"
+            [class.bg-gray-50]="even"
+            class="hover:bg-blue-50/50 transition-colors duration-200">
           <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-500">#{{ bezeroa.id }}</td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm font-semibold text-gray-900">{{ bezeroa.izena }}</div>
+            <div class="text-sm font-semibold text-gray-900">{{ bezeroa.name }} {{ bezeroa.surname }}</div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ bezeroa.email }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
-              {{ bezeroa.herria }}
+              {{ bezeroa.phone }}
             </span>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-3">
@@ -55,6 +65,14 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- Ez dago bezerorik mezua -->
+  <div *ngIf="!kargatzen && bezeroak.length === 0" class="text-center py-20 bg-gray-50 rounded-xl border border-gray-200">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+    </svg>
+    <p class="text-gray-600 text-lg font-medium">Ez dago bezerorik erakusteko</p>
   </div>
 
   <div class="mt-8 flex justify-between items-center px-6 py-4 bg-white border border-gray-100 shadow-lg rounded-2xl">

@@ -13,8 +13,16 @@ import { CommonModule } from '@angular/common';
 })
 export class BezeroFormComponent implements OnInit {
   // Objeto inicial vacío
-  bezeroa: Bezeroa = { id: 0, izena: '', email: '', herria: '', argazkia: '' };
-  editatzen: boolean = false; // Nos servirá para cambiar el título en el HTML
+  bezeroa: Bezeroa = {
+    id: 0,
+    name: '',
+    surname: '',
+    email: '',
+    phone: '',
+    home_client: false,
+    info: null
+  };
+  editatzen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,40 +32,61 @@ export class BezeroFormComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    
-    // Si hay ID y no es "nuevo" (o el valor que uses para crear), cargamos datos
+
+    // Si hay ID y no es "0", cargamos datos desde la API
     if (id && id !== '0') {
-      const existitzenDenBezeroa = this.dataService.getBezeroaById(Number(id));
-      if (existitzenDenBezeroa) {
-        this.bezeroa = { ...existitzenDenBezeroa };
-        this.editatzen = true;
-      }
+      this.dataService.getBezeroaByIdFromApi(Number(id)).subscribe({
+        next: (bezeroa) => {
+          this.bezeroa = { ...bezeroa };
+          this.editatzen = true;
+        },
+        error: (err) => {
+          console.error('Errorea bezeroa jasotzerakoan:', err);
+        }
+      });
     } else {
-      // Si es nuevo, podemos poner una imagen por defecto
-      this.bezeroa.argazkia = 'https://i.pravatar.cc/150?u=' + Math.random();
       this.editatzen = false;
     }
   }
 
   gorde() {
+    const bezeroaData = {
+      name: this.bezeroa.name,
+      surname: this.bezeroa.surname,
+      email: this.bezeroa.email,
+      phone: this.bezeroa.phone,
+      home_client: this.bezeroa.home_client
+    };
+
     if (this.editatzen) {
-      // Si estamos editando, usamos update
-      this.dataService.updateBezeroa(this.bezeroa);
+      // PUT - Actualizar bezeroa
+      this.dataService.updateBezeroaInApi(this.bezeroa.id, bezeroaData as Bezeroa).subscribe({
+        next: () => {
+          console.log('Bezeroa eguneratu:', this.bezeroa);
+          this.router.navigate(['/bezeroak']);
+        },
+        error: (err) => {
+          console.error('Errorea bezeroa eguneratzerakoan:', err);
+        }
+      });
     } else {
-      // Si es nuevo, usamos add
-      this.dataService.addBezeroa(this.bezeroa);
+      // POST - Crear bezero berria
+      this.dataService.createBezeroa(bezeroaData as Bezeroa).subscribe({
+        next: () => {
+          console.log('Bezero berria sortu:', bezeroaData);
+          this.router.navigate(['/bezeroak']);
+        },
+        error: (err) => {
+          console.error('Errorea bezeroa sortzerakoan:', err);
+        }
+      });
     }
-    
-    // Volvemos a la lista
-    this.router.navigate(['/bezeroak']);
   }
 
   utzi() {
     if (this.editatzen) {
-      // Si editábamos, volvemos a su ficha
       this.router.navigate(['/bezeroak/fitxa', this.bezeroa.id]);
     } else {
-      // Si era nuevo, volvemos a la lista
       this.router.navigate(['/bezeroak']);
     }
   }

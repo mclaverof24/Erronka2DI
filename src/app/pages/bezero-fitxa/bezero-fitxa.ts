@@ -23,7 +23,14 @@ export class BezeroFitxaComponent implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.bezeroa = this.dataService.getBezeroaById(id);
+    this.dataService.getBezeroaByIdFromApi(id).subscribe({
+      next: (bezeroa) => {
+        this.bezeroa = bezeroa;
+      },
+      error: (err) => {
+        console.error('Errorea bezeroa jasotzerakoan:', err);
+      }
+    });
   }
 
   // Nueva función para navegar al formulario de edición

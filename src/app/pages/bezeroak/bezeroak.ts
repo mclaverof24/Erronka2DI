@@ -13,18 +13,29 @@ import { environment } from '../../../environments/environment.development';
 })
 export class BezeroakComponent implements OnInit {
   bezeroak: Bezeroa[] = [];
+  kargatzen: boolean = true;
   
   currentPage: number = 1;
   itemsPerPage: number = environment.PaginationCount || 5;
 
   constructor(
-    private dataService: DataService, 
+    private dataService: DataService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    // Datu guztiak kargatu
-    this.bezeroak = this.dataService.getBezeroak();
+    // API-tik bezeroak kargatu
+    this.dataService.getBezeroakFromApi().subscribe({
+      next: (data) => {
+        this.bezeroak = data;
+        this.kargatzen = false;
+        console.log('Bezeroak API-tik jaso dira:', data);
+      },
+      error: (err) => {
+        console.error('Errorea bezeroak jasotzerakoan:', err);
+        this.kargatzen = false;
+      }
+    });
   }
 
   // Orrialde bakoitzeko datu zatia kalkulatu

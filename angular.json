@@ -69,7 +69,8 @@
               "buildTarget": "Erronka2:build:production"
             },
             "development": {
-              "buildTarget": "Erronka2:build:development"
+              "buildTarget": "Erronka2:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

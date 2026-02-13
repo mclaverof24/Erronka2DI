@@ -1,42 +1,81 @@
-<div class="overflow-hidden rounded-lg border border-gray-200 shadow-md dark:border-slate-700">
-  <table class="w-full text-left text-sm text-gray-500">
+<div class="overflow-hidden bg-white shadow-2xl rounded-2xl border border-gray-100">
+  <table class="w-full text-left text-sm text-black">
     <thead class="bg-slate-800 text-xs uppercase text-white dark:bg-black">
       <tr>
-        <th *ngFor="let g of goiburuak" class="px-6 py-3 font-semibold tracking-wider">
-          {{ g }}
-        </th>
+        <!-- Zutabe konfigurazioa erabiltzen bada -->
+        <ng-container *ngIf="zutabeak.length > 0">
+          <th *ngFor="let z of zutabeak" class="px-6 py-3 font-semibold tracking-wider">
+            {{ z.izena }}
+          </th>
+        </ng-container>
+        <!-- Goiburuak soilik erabiltzen badira (atzerako bateragarritasuna) -->
+        <ng-container *ngIf="zutabeak.length === 0">
+          <th *ngFor="let g of goiburuak" class="px-6 py-3 font-semibold tracking-wider">
+            {{ g }}
+          </th>
+        </ng-container>
       </tr>
     </thead>
     
-    <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
-      <tr *ngFor="let item of paginatedData" 
-          class="odd:bg-white even:bg-slate-50 hover:bg-blue-50 transition-colors duration-200 dark:odd:bg-slate-900 dark:even:bg-slate-800 dark:hover:bg-slate-700">
+    <tbody class="divide-y divide-gray-100">
+      <tr *ngFor="let item of paginatedData; let odd = odd; let even = even"
+          [class.bg-white]="odd"
+          [class.bg-gray-50]="even"
+          class="hover:bg-blue-50/50 transition-colors duration-200">
         
-        <td *ngFor="let g of goiburuak" class="px-6 py-4 font-medium text-gray-900 dark:text-gray-200">
-          {{ item[g.toLowerCase()] }}
-        </td>
+        <!-- Zutabe konfigurazioa erabiltzen bada -->
+        <ng-container *ngIf="zutabeak.length > 0">
+          <td *ngFor="let z of zutabeak" class="px-6 py-4 text-black">
+            <ng-container *ngIf="z.mota !== 'ekintzak'">
+              {{ getBalioa(item, z) }}
+            </ng-container>
+            <ng-container *ngIf="z.mota === 'ekintzak'">
+              <div class="flex gap-2">
+                <button *ngIf="editatuBotoia"
+                        (click)="editatu(item.id)"
+                        class="bg-amber-100 text-amber-700 hover:bg-amber-200 px-3 py-1 rounded-lg transition-all shadow-sm text-xs">
+                  Editatu
+                </button>
+                <button *ngIf="erakutsiBotoia"
+                        (click)="irekiFitxa(item.id)"
+                        class="text-blue-600 hover:text-blue-900 font-bold transition-colors text-xs">
+                  Ikusi
+                </button>
+              </div>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Goiburuak soilik erabiltzen badira (atzerako bateragarritasuna) -->
+        <ng-container *ngIf="zutabeak.length === 0">
+          <td *ngFor="let g of goiburuak" class="px-6 py-4 font-medium text-black">
+            {{ item[g.toLowerCase()] }}
+          </td>
+        </ng-container>
       </tr>
     </tbody>
   </table>
 </div>
 
-<div class="flex justify-between items-center mt-6 px-2">
-  <button (click)="prevPage()" 
-          [disabled]="currentPage === 1"
-          class="flex items-center bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-800 transition shadow">
-    <span class="mr-1">←</span> Atzera
+<div class="mt-8 flex justify-between items-center px-6 py-4 bg-white border border-gray-100 shadow-lg rounded-2xl">
+  <button
+    (click)="prevPage()"
+    [disabled]="currentPage === 1"
+    class="text-sm font-medium text-gray-500 hover:text-gray-700 disabled:opacity-30 cursor-pointer">
+    &larr; Aurrekoa
   </button>
   
-  <div class="flex items-center space-x-2">
-    <span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Orrialdea:</span>
-    <span class="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white px-3 py-1 rounded-md text-sm font-bold border border-slate-200 dark:border-slate-600">
+  <div class="flex items-center gap-2">
+    <span class="text-sm text-gray-500 font-medium">Orrialdea</span>
+    <span class="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-lg font-bold text-sm shadow-md">
       {{ currentPage }}
     </span>
   </div>
 
-  <button (click)="nextPage()" 
-          [disabled]="(currentPage * itemsPerPage) >= datuak.length"
-          class="flex items-center bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-800 transition shadow">
-    Aurrera <span class="ml-1">→</span>
+  <button
+    (click)="nextPage()"
+    [disabled]="(currentPage * itemsPerPage) >= datuak.length"
+    class="text-sm font-medium text-gray-500 hover:text-gray-700 disabled:opacity-30 cursor-pointer">
+    Hurrengoa &rarr;
   </button>
 </div>

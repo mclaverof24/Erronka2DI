@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Bezeroa } from '../interfaces/bezeroa.interface';
+import { Zita } from '../interfaces/zita.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class DataService {
   private key = 'bezeroak_data';
   private jsonBezeroakPath = 'bezeroak.json'; 
   private http = inject(HttpClient);
-  private apiUrl = "http://192.168.208.51:8080/api";
+  private apiUrl = "/api";
   data = null;
   
   private bezeroak: Bezeroa[] = [];
@@ -54,8 +55,8 @@ export class DataService {
   updateBezeroa(updatedBezeroa: Bezeroa) {
     const index = this.bezeroak.findIndex(b => b.id === updatedBezeroa.id);
     if (index !== -1) {
-      this.bezeroak[index] = { ...updatedBezeroa }; // Actualizamos el array
-      this.saveToLocalStorage(); // <--- ESTO guarda los cambios "para siempre" en el navegador
+      this.bezeroak[index] = { ...updatedBezeroa }; 
+      this.saveToLocalStorage(); 
     }
   }
 
@@ -70,14 +71,45 @@ export class DataService {
     this.saveToLocalStorage();
   }
 
-  getZitak(): Observable<any[]> {
-    return this.http.get<any>(this.apiUrl+
-        '/apointment');
+  getZitak(): Observable<Zita[]> {
+    return this.http.get<Zita[]>(this.apiUrl + '/appointment');
   }
 
-  getEvento(id: number): Observable<any[]> {
-    return this.http.get<any>(this.apiUrl+
-      '/events/'+id);
+  getZitaById(id: number): Observable<Zita> {
+    return this.http.get<Zita>(this.apiUrl + '/appointment/' + id);
   }
+
+  // POST - Sortu zita berria
+  createZita(zita: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + '/appointment', zita);
+  }
+
+  // PUT - Eguneratu zita
+  updateZita(id: number, zita: any): Observable<any> {
+    return this.http.put<any>(this.apiUrl + '/appointment/' + id, zita);
+  }
+
+  // CLIENTES / BEZEROAK - API metodoak
+  
+  // GET - Lortu bezero guztiak
+  getBezeroakFromApi(): Observable<Bezeroa[]> {
+    return this.http.get<Bezeroa[]>(this.apiUrl + '/client');
+  }
+
+  // GET - Lortu bezeroa ID-aren arabera
+  getBezeroaByIdFromApi(id: number): Observable<Bezeroa> {
+    return this.http.get<Bezeroa>(this.apiUrl + '/client/' + id);
+  }
+
+  // POST - Sortu bezero berria
+  createBezeroa(bezeroa: Bezeroa): Observable<Bezeroa> {
+    return this.http.post<Bezeroa>(this.apiUrl + '/client', bezeroa);
+  }
+
+  // PUT - Eguneratu bezeroa
+  updateBezeroaInApi(id: number, bezeroa: Bezeroa): Observable<Bezeroa> {
+    return this.http.put<Bezeroa>(this.apiUrl + '/client/' + id, bezeroa);
+  }
+
 }
 
